@@ -138,9 +138,9 @@ async function startServer() {
   app.use(cors());
   app.use(express.json());
 
-  app.get("/api/state", (req, res) => res.json(currentState));
+  app.get(["/api/state", "/state"], (req, res) => res.json(currentState));
 
-  app.post("/api/reset", (req, res) => {
+  app.post(["/api/reset", "/reset"], (req, res) => {
     const taskId = req.body?.task_id || "easy-claim-mapping";
     if (!TASKS[taskId]) return res.status(400).json({ error: "Invalid task ID" });
 
@@ -170,7 +170,7 @@ async function startServer() {
     });
   });
 
-  app.post("/api/step", (req, res) => {
+  app.post(["/api/step", "/step"], (req, res) => {
     if (currentState.done) return res.status(400).json({ error: "Episode finished" });
 
     const actionResult = ActionSchema.safeParse(req.body);
@@ -267,7 +267,7 @@ async function startServer() {
     });
   });
 
-  app.get("/api/openenv.yaml", (req, res) => res.sendFile(path.join(process.cwd(), "openenv.yaml")));
+  app.get(["/api/openenv.yaml", "/openenv.yaml"], (req, res) => res.sendFile(path.join(process.cwd(), "openenv.yaml")));
 
   // Vite/Static
   if (process.env.NODE_ENV !== "production") {
