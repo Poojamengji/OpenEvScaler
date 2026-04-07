@@ -9,7 +9,7 @@ from openai import OpenAI
 # --- Configuration ---
 ENV_BASE_URL = os.getenv("API_BASE_URL", "http://0.0.0.0:3000")
 API_BASE_URL_LLM = os.getenv("API_BASE_URL_LLM", "https://api.openai.com/v1")
-API_KEY = os.getenv("OPENAI_API_KEY", os.getenv("HF_TOKEN", "dummy-key"))
+API_KEY = os.getenv("OPENAI_API_KEY") or os.getenv("HF_TOKEN")
 MODEL_NAME = os.getenv("MODEL_NAME", "gpt-4o")
 
 TASKS = ["easy-claim-mapping", "medium-limitation-extraction", "hard-infringement-audit"]
