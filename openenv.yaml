@@ -1,0 +1,71 @@
+# OpenEnv Configuration for Patent Claim Scope Analyzer
+version: "1.0"
+name: "patent-claim-analyzer"
+description: "Elite-tier professional environment for analyzing patent claim scope, limitation extraction, and legal infringement (Literal + Doctrine of Equivalents)."
+entrypoint: "npm start"
+env_vars:
+  - PORT: 3000
+
+tasks:
+  - id: "easy-claim-mapping"
+    name: "Independent Claim Identification"
+    difficulty: "easy"
+    description: "Identify all independent claims in the solar backpack patent US-1029384."
+  
+  - id: "medium-limitation-extraction"
+    name: "Claim Limitation Extraction"
+    difficulty: "medium"
+    description: "Extract technical limitations from the surgical robot haptic system claim US-1192837."
+
+  - id: "hard-infringement-audit"
+    name: "Infringement Audit (Doctrine of Equivalents)"
+    difficulty: "hard"
+    description: "Perform a full infringement analysis for the SafeSafe smart lock. Consider functional equivalents."
+
+observation_space:
+  type: "object"
+  properties:
+    document_text:
+      type: "string"
+      description: "The patent document or claim text to analyze."
+    task_description:
+      type: "string"
+      description: "Specific goal for the current task."
+    history:
+      type: "array"
+      items:
+        type: "string"
+      description: "List of past actions and their results."
+    metadata:
+      type: "object"
+      properties:
+        patent_number:
+          type: "string"
+        filing_date:
+          type: "string"
+
+action_space:
+  type: "object"
+  properties:
+    action_type:
+      type: "string"
+      enum: ["list_claims", "analyze_claim", "search_definition", "search_prior_art", "submit_final"]
+    payload:
+      type: "object"
+      properties:
+        claim_id:
+          type: "integer"
+        term:
+          type: "string"
+        claims:
+          type: "array"
+          items:
+            type: "integer"
+        limitations:
+          type: "array"
+          items:
+            type: "string"
+        infringes:
+          type: "boolean"
+        reasoning:
+          type: "string"

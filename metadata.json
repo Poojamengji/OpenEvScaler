@@ -1,0 +1,5 @@
+{
+  "name": "Patent Claim Scope Analyzer",
+  "description": "An OpenEnv-compliant environment for evaluating AI agents on patent claim analysis, limitation extraction, and infringement assessment.",
+  "requestFramePermissions": []
+}
