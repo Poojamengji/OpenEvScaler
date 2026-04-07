@@ -1,3 +1,13 @@
+---
+title: Patent Claim Scope Analyzer
+emoji: ⚖️
+colorFrom: blue
+colorTo: indigo
+sdk: docker
+pinned: false
+app_port: 3000
+---
+
 # Patent Claim Scope Analyzer (OpenEnv)
 
 A professional OpenEnv-compliant environment for evaluating AI agents on patent claim analysis, limitation extraction, and literal infringement assessment.
