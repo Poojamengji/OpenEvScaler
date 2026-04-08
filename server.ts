@@ -262,6 +262,8 @@ async function startServer() {
 
     currentState.history.push(`${action.action_type}: ${message}`);
 
+    const displayScore = Math.min(Math.max(currentState.totalReward, 0.01), 0.99);
+
     res.json({
       observation: {
         document_text: task.document,
@@ -270,7 +272,7 @@ async function startServer() {
       },
       reward: stepReward,
       done: currentState.done,
-      info: { message, total_reward: currentState.totalReward },
+      info: { message, total_reward: currentState.totalReward, score: displayScore },
       state: currentState // Full state exposed as per spec
     });
   });
