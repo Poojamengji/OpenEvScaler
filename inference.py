@@ -7,9 +7,9 @@ from typing import List, Optional, Dict, Any
 from openai import OpenAI
 
 # --- Configuration ---
-ENV_BASE_URL = os.getenv("API_BASE_URL", "http://0.0.0.0:3000")
-API_BASE_URL_LLM = os.getenv("API_BASE_URL_LLM", "https://api.openai.com/v1")
-API_KEY = os.getenv("OPENAI_API_KEY") or os.getenv("HF_TOKEN")
+ENV_BASE_URL = os.getenv("ENV_BASE_URL", "http://0.0.0.0:3000")
+API_BASE_URL = os.getenv("API_BASE_URL")
+API_KEY = os.getenv("API_KEY")
 MODEL_NAME = os.getenv("MODEL_NAME", "gpt-4o")
 
 TASKS = ["easy-claim-mapping", "medium-limitation-extraction", "hard-infringement-audit"]
@@ -83,7 +83,7 @@ async def run_task(task_id: str, agent: PatentAgent):
         log_end(success=success, steps=steps_taken, score=score, rewards=rewards)
 
 async def main():
-    client = OpenAI(base_url=API_BASE_URL_LLM, api_key=API_KEY)
+    client = OpenAI(base_url=API_BASE_URL, api_key=API_KEY)
     agent = PatentAgent(client, MODEL_NAME)
     for task in TASKS: await run_task(task, agent)
 
