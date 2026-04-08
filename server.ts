@@ -252,6 +252,14 @@ async function startServer() {
     }
 
     currentState.totalReward += stepReward;
+
+    // Hackathon requirement: task score must be strictly within (0, 1)
+    if (currentState.done) {
+      const clampedTotal = Math.min(Math.max(currentState.totalReward, 0.01), 0.99);
+      stepReward += (clampedTotal - currentState.totalReward);
+      currentState.totalReward = clampedTotal;
+    }
+
     currentState.history.push(`${action.action_type}: ${message}`);
 
     res.json({

@@ -75,7 +75,7 @@ async def run_task(task_id: str, agent: PatentAgent):
             log_step(step=step, action=json.dumps(action_obj), reward=reward, done=done)
             if done: break
         total_raw_reward = sum(rewards)
-        score = min(max(total_raw_reward / MAX_TOTAL_REWARD, 0.0), 1.0) if MAX_TOTAL_REWARD > 0 else 0.0
+        score = min(max(total_raw_reward / MAX_TOTAL_REWARD, 0.01), 0.99) if MAX_TOTAL_REWARD > 0 else 0.01
         success = score >= SUCCESS_SCORE_THRESHOLD
     except Exception as e:
         print(f"[DEBUG] Error: {e}", file=sys.stderr)
