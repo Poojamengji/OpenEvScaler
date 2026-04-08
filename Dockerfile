@@ -4,6 +4,8 @@ FROM node:20-slim
 RUN apt-get update && \
     apt-get install -y python3 python3-pip python-is-python3 && \
     rm -rf /var/lib/apt/lists/*
+RUN ln -sf /usr/bin/python3 /usr/bin/python || true
+RUN ln -sf /usr/bin/python3 /usr/local/bin/python || true
 
 # Install dependencies
 WORKDIR /app
