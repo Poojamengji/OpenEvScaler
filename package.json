@@ -1,5 +1,6 @@
 {
-  "name": "react-example",
+  "name": "aegis-forensic-ip-audit",
+  "description": "Professional IP forensic auditing environment for patent claim construction and infringement mapping.",
   "private": true,
   "version": "0.0.0",
   "type": "module",

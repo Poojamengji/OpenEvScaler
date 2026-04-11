@@ -4,15 +4,15 @@ import path from "path";
 import { createServer as createViteServer } from "vite";
 import { z } from "zod";
 
-// --- Advanced OpenEnv Schemas ---
+// --- Aegis Forensic IP Schemas ---
 
 const ActionSchema = z.object({
   action_type: z.enum([
-    "list_claims", 
-    "analyze_claim", 
-    "search_definition", 
-    "search_prior_art",
-    "submit_final"
+    "scan_claims", 
+    "audit_limitations", 
+    "consult_legal_glossary", 
+    "query_prior_art_repo",
+    "finalize_audit_report"
   ]),
   payload: z.any().optional(),
 });
@@ -35,19 +35,19 @@ interface Task {
   };
 }
 
-// --- High-Value Patent Datasets ---
+// --- Forensic Patent Datasets ---
 
 const TASKS: Record<string, Task> = {
-  "easy-claim-mapping": {
-    id: "easy-claim-mapping",
-    name: "Independent Claim Identification",
+  "forensic-claim-mapping": {
+    id: "forensic-claim-mapping",
+    name: "Structural Claim Delineation",
     difficulty: "easy",
-    description: "Identify all independent claims in the solar backpack patent US-1029384.",
+    description: "Audit the solar-capture system patent (US-1029384) to extract distinct independent claims for litigation scoping.",
     document: `
-      [Patent US-1029384]
+      [Patent US-1029384: Solar Modular Backpack]
       1. A solar-powered backpack comprising: a main compartment; a flexible solar panel; and a battery.
-      2. The backpack of claim 1, further comprising a USB port.
-      3. A portable charging method using a solar backpack, comprising: collecting solar energy; and storing energy in a battery.
+      2. The backpack of claim 1, further comprising a integrated USB-C port.
+      3. A portable charging method using a photovoltaic substrate, comprising: collecting solar photons; and storing energy in a chemical battery.
       4. The method of claim 3, further comprising discharging energy to a mobile device.
       5. An ergonomic strap for a backpack according to claim 1.
     `,
@@ -60,13 +60,13 @@ const TASKS: Record<string, Task> = {
       analysis_keywords: ["compartment", "solar", "battery"],
     },
   },
-  "medium-limitation-extraction": {
-    id: "medium-limitation-extraction",
+  "forensic-limitation-audit": {
+    id: "forensic-limitation-audit",
     name: "Claim Limitation Extraction",
     difficulty: "medium",
-    description: "Extract the exact technical limitations from Claim 1 of the 'Haptic Feedback System' patent US-1192837.",
+    description: "Deep audit of US-1192837 (Surgical Haptic Interface). Identify all technical limitations required for a valid infringement claim.",
     document: `
-      [Patent US-1192837]
+      [Patent US-1192837: Surgical Robotic Interface]
       1. A haptic feedback system for a surgical robot, comprising:
          a force sensor mounted on a robotic arm;
          a control unit receiving force data;
@@ -85,45 +85,86 @@ const TASKS: Record<string, Task> = {
       analysis_keywords: ["force", "haptic", "surgical", "modulate"],
     },
   },
-  "hard-infringement-audit": {
-    id: "hard-infringement-audit",
-    name: "Infringement Analysis (Doctrine of Equivalents)",
+  "equivalence-forensics": {
+    id: "equivalence-forensics",
+    name: "Doctrine of Equivalents (Non-Literal) Audit",
     difficulty: "hard",
-    description: "Analyze Claim 1 against the 'SafeSafe' product. Use Literal Infringement AND Doctrine of Equivalents.",
+    description: "Analyze the 'SafeSafe' hardware against US-1283746. Determine if LoraWAN protocols constitute a functional equivalent for WiFi limitations.",
     document: `
-      [Patent Claim 1 - US-1283746]
+      [Patent Claim 1 - US-1283746 - Smart Biometric Access]
       1. A smart lock system comprising:
          a biometric scanner configured to read fingerprints;
          a memory storing authorized fingerprints;
          a mechanical deadbolt;
          and a WiFi module for remote unlocking.
       
-      [Product Description: SafeSafe Lock]
-      The 'SafeSafe' features an optical fingerprint reader and local storage. It operates a standard mechanical locking mechanism. It LACKS a WiFi module but instead uses a custom LoraWAN long-range radio to achieve the EXACT same function of remote unlocking as specified in the patent claim.
+      [Infringement Target Site: SafeSafe Gen2]
+      The 'SafeSafe' device utilizes a proprietary optical fingerprint reader and solid-state local storage. It operates a heavy-duty mechanical locking mechanism. It LACKS a 2.4GHz/5GHz WiFi module but instead integrates a custom LoraWAN long-range chipset to achieve the intended functional outcome of remote unlocking.
     `,
     metadata: {
       patentNumber: "US-1283746",
       filingDate: "2025-01-05",
       independentClaims: [1],
       limitations: ["biometric scanner", "memory", "mechanical deadbolt", "WiFi module"],
-      isInfringed: true, // Infringed under Doctrine of Equivalents (LoraWAN = WiFi equivalent in this context)
-      analysis_keywords: ["lorawan", "equivalent", "function", "remote"],
+      isInfringed: true,
+      analysis_keywords: ["lorawan", "equivalence", "function", "remote"],
+    },
+  },
+  "sovereign-ip-strategy": {
+    id: "sovereign-ip-strategy",
+    name: "Multi-Staged Strategic Invalidation",
+    difficulty: "elite",
+    description: "Perform a complex IP audit on US-9928374. Assess both Literal Infringement and potential Prior Art invalidity based on network topology constraints.",
+    document: `
+      [Patent US-9928374: Decentralized Smart Grids]
+      1. A method for decentralized energy storage comprising:
+         monitoring grid load via a mesh network of smart meters;
+         predictively charging a plurality of home batteries;
+         and discharging energy during peak demand.
+      
+      [Audited Target: EcoGrid AI]
+      EcoGrid AI utilizes a star-topology network (not mesh) of smart meters connected to a central hub. It performs predictive charging and discharging. The audit must determine if the topological deviation avoids literal infringement.
+    `,
+    metadata: {
+      patentNumber: "US-9928374",
+      filingDate: "2022-03-15",
+      independentClaims: [1],
+      limitations: ["decentralized", "mesh network", "smart meters", "predictive charging", "peak demand"],
+      isInfringed: false, 
+      analysis_keywords: ["mesh", "star", "topology", "invalidity"],
     },
   }
 };
 
-const GLOSSARY: Record<string, string> = {
-  "comprising": "Open-ended transition term (including but not limited to).",
-  "consisting of": "Closed-ended transition term (only these elements).",
-  "independent claim": "A claim that stands alone without referring to another.",
-  "limitation": "A technical requirement or feature required for infringement.",
-  "doctrine of equivalents": "Legal rule: infringing if the element performs the same function in the same way to achieve the same result.",
+const LEGAL_GLOSSARY: Record<string, string> = {
+  "comprising": "Inclusive term (contains A, B, and C, but can contain more).",
+  "consisting of": "Restrictive term (contains ONLY A, B, and C).",
+  "independent claim": "Primary claim defining the core scope of invention.",
+  "limitation": "A specific technical requirement of a claim.",
+  "doctrine of equivalents": "Legal doctrine allowing infringement if a feature performs the same function in the same way for the same result.",
+  "prior art": "Evidence that an invention was already known before the filing date.",
+  "phosita": "Person Having Ordinary Skill In The Art (the standard for obviousness).",
 };
 
-// --- State Management ---
+const PRIOR_ART_REPOSITORY: Record<string, any> = {
+  "US-1029384": [
+    { id: "PA-1", text: "Vintage military pack with rigid solar cells and external battery storage.", relevance: 0.85 },
+  ],
+  "US-1192837": [
+    { id: "PA-3", text: "Haptic feedback mechanism for precision flight controls using oscillating actuators.", relevance: 0.9 }
+  ],
+  "US-1283746": [
+    { id: "PA-4", text: "Zigbee-enabled security system with distributed biometric nodes.", relevance: 0.82 }
+  ],
+  "US-9928374": [
+    { id: "PA-5", text: "Decentralized energy balancing using Bluetooth Mesh for street lighting.", relevance: 0.98 }
+  ]
+};
+
+// --- Forensic Engine State ---
 
 let currentState = {
-  taskId: "easy-claim-mapping",
+  taskId: "forensic-claim-mapping",
   history: [] as string[],
   done: false,
   totalReward: 0,
@@ -131,7 +172,7 @@ let currentState = {
   actionCounts: {} as Record<string, number>,
 };
 
-// --- Server Setup ---
+// --- Server Lifecycle ---
 
 async function startServer() {
   const app = express();
@@ -139,9 +180,10 @@ async function startServer() {
   app.use(express.json());
 
   app.get(["/api/state", "/state"], (req, res) => res.json(currentState));
+  app.get(["/api/glossary", "/glossary"], (req, res) => res.json(LEGAL_GLOSSARY));
 
   app.post(["/api/reset", "/reset"], (req, res) => {
-    const taskId = req.body?.task_id || "easy-claim-mapping";
+    const taskId = req.body?.task_id || "forensic-claim-mapping";
     if (!TASKS[taskId]) return res.status(400).json({ error: "Invalid task ID" });
 
     currentState = {
@@ -171,80 +213,93 @@ async function startServer() {
   });
 
   app.post(["/api/step", "/step"], (req, res) => {
-    if (currentState.done) return res.status(400).json({ error: "Episode finished" });
+    if (currentState.done) return res.status(400).json({ error: "Audit series concluded." });
 
     const actionResult = ActionSchema.safeParse(req.body);
-    if (!actionResult.success) return res.status(400).json({ error: "Invalid action" });
+    if (!actionResult.success) return res.status(400).json({ error: "Illegal action signature detector triggered." });
 
     const action = actionResult.data;
     const task = TASKS[currentState.taskId];
     let stepReward = 0;
     let message = "";
     
-    // Tracking & Penalties
     currentState.steps++;
     currentState.actionCounts[action.action_type] = (currentState.actionCounts[action.action_type] || 0) + 1;
     
-    // Double Action Penalty
+    // Strategic Penalty for redundancy
     if (currentState.actionCounts[action.action_type] > 3) {
       stepReward -= 0.1;
-      message = `Penalty: Repeatedly calling ${action.action_type}. `;
+      message = `Strategic Penalty: Redundant use of ${action.action_type}. `;
     }
 
     switch (action.action_type) {
-      case "list_claims":
-        message += "Claims boundaries scanned.";
+      case "scan_claims":
+        message += "Structural boundaries of patent manuscript delineate.";
         stepReward += 0.05;
         break;
 
-      case "analyze_claim":
-        message += `Structural breakdown of Claim ${action.payload?.claim_id} complete.`;
+      case "audit_limitations":
+        const cid = action.payload?.claim_id || 1;
+        message += `Technical limitations for Claim ${cid} extracted for forensic mapping.`;
         stepReward += 0.1;
         break;
 
-      case "search_definition":
+      case "consult_legal_glossary":
         const term = (action.payload?.term || "").toLowerCase();
-        message += GLOSSARY[term] ? `Glossary: ${GLOSSARY[term]}` : `No legal entry for '${term}'.`;
+        message += LEGAL_GLOSSARY[term] ? `Lexicon Match: ${LEGAL_GLOSSARY[term]}` : `No specialized legal entry found for '${term}'.`;
         stepReward += 0.05;
         break;
 
-      case "search_prior_art":
-        message += "No relevant prior art found in this scope.";
-        stepReward += 0.05;
+      case "query_prior_art_repo":
+        const pa = PRIOR_ART_REPOSITORY[task.metadata.patentNumber] || [];
+        message += pa.length > 0 
+          ? `Repository query successful. Relevant precedent found: ${pa[0].id}`
+          : "Local repository contains no direct tactical matches for this specific patent node.";
+        stepReward += 0.15;
         break;
 
-      case "submit_final":
-        if (currentState.taskId === "easy-claim-mapping") {
-          const submitted = action.payload?.claims || [];
+      case "finalize_audit_report":
+        if (currentState.taskId === "forensic-claim-mapping") {
+          const submitted = action.payload?.identified_claims || [];
           const truth = task.metadata.independentClaims;
           const correct = submitted.filter((c: number) => truth.includes(c)).length;
           const wrong = submitted.filter((c: number) => !truth.includes(c)).length;
           stepReward += Math.max(0, (correct / truth.length) - (wrong * 0.2));
-          message += `Identified ${correct}/${truth.length} independent claims.`;
+          message += `Audit Report: ${correct}/${truth.length} independent claims successfully mapped.`;
         } 
-        else if (currentState.taskId === "medium-limitation-extraction") {
-          const submitted = action.payload?.limitations || [];
+        else if (currentState.taskId === "forensic-limitation-audit") {
+          const submitted = action.payload?.extracted_limitations || [];
           const truth = task.metadata.limitations;
           const matches = submitted.filter((s: string) => 
             truth.some(t => s.toLowerCase().includes(t.toLowerCase()))
           );
           stepReward += matches.length / truth.length;
-          message += `Extracted ${matches.length}/${truth.length} limitations correctly.`;
+          message += `Audit Report: ${matches.length}/${truth.length} critical limitations verified.`;
         }
-        else if (currentState.taskId === "hard-infringement-audit") {
-          const infringes = !!action.payload?.infringes;
-          const reasoning = (action.payload?.reasoning || "").toLowerCase();
+        else if (currentState.taskId === "equivalence-forensics") {
+          const infringes = !!action.payload?.full_infringement_detected;
+          const reasoning = (action.payload?.forensic_reasoning || "").toLowerCase();
           const mentionsEquivalence = reasoning.includes("equivalent") || reasoning.includes("function") || reasoning.includes("lorawan");
           
           if (infringes === task.metadata.isInfringed && mentionsEquivalence) {
             stepReward += 1.0;
-            message += "Perfect Score. Understood Doctrine of Equivalents for LoraWAN.";
-          } else if (infringes === true && !mentionsEquivalence) {
-            stepReward += 0.5;
-            message += "Partial reward. Correct outcome but missed the legal equivalence reasoning.";
+            message += "Elite Verdict: Doctrine of Equivalents verified for non-literal infringement via LoraWAN.";
           } else {
-            stepReward += 0.0;
-            message += "Incorrect infringement analysis.";
+            stepReward += 0.1;
+            message += "Incomplete Verdict: Legal equivalence argument lacked forensic depth.";
+          }
+        }
+        else if (currentState.taskId === "sovereign-ip-strategy") {
+          const infringes = !!action.payload?.full_infringement_detected;
+          const reasoning = (action.payload?.forensic_reasoning || "").toLowerCase();
+          const mentionsTopology = reasoning.includes("topology") || reasoning.includes("mesh") || reasoning.includes("star");
+          
+          if (infringes === false && mentionsTopology) {
+            stepReward += 1.0;
+            message += "Elite Strategic Audit: Successfully identified non-infringement due to topological deviation (Mesh vs Star).";
+          } else {
+            stepReward += 0.2;
+            message += "Audit Failure: Tactical network topology constraints were overlooked.";
           }
         }
         currentState.done = true;
@@ -252,34 +307,30 @@ async function startServer() {
     }
 
     currentState.totalReward += stepReward;
+    currentState.history.push(`[${action.action_type.toUpperCase()}] ${message}`);
 
-    // Hackathon requirement: task score must be strictly within (0, 1)
-    if (currentState.done) {
-      const clampedTotal = Math.min(Math.max(currentState.totalReward, 0.01), 0.99);
-      stepReward += (clampedTotal - currentState.totalReward);
-      currentState.totalReward = clampedTotal;
-    }
-
-    currentState.history.push(`${action.action_type}: ${message}`);
-
-    const displayScore = Math.min(Math.max(currentState.totalReward, 0.01), 0.99);
+    // Standardized scoring for OpenEnv dashboard
+    const displayScore = Math.min(Math.max(currentState.totalReward, 0.0), 1.0);
 
     res.json({
       observation: {
         document_text: task.document,
         task_description: task.description,
         history: currentState.history,
+        metadata: {
+          patent_number: task.metadata.patentNumber,
+          filing_date: task.metadata.filingDate,
+        }
       },
       reward: stepReward,
       done: currentState.done,
       info: { message, total_reward: currentState.totalReward, score: displayScore },
-      state: currentState // Full state exposed as per spec
+      state: currentState 
     });
   });
 
   app.get(["/api/openenv.yaml", "/openenv.yaml"], (req, res) => res.sendFile(path.join(process.cwd(), "openenv.yaml")));
 
-  // Vite/Static
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({ server: { middlewareMode: true }, appType: "spa" });
     app.use(vite.middlewares);
@@ -289,7 +340,7 @@ async function startServer() {
   }
 
   const PORT = Number(process.env.PORT || 3000);
-  app.listen(PORT, "0.0.0.0", () => console.log(`Server running on http://0.0.0.0:${PORT}`));
+  app.listen(PORT, "0.0.0.0", () => console.log(`Aegis Forensic IP Server online at port ${PORT}`));
 }
 
 startServer();

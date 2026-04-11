@@ -43,8 +43,9 @@ export default function App() {
   const [state, setState] = useState<EnvState | null>(null);
   const [observation, setObservation] = useState<Observation | null>(null);
   const [loading, setLoading] = useState(false);
-  const [selectedTask, setSelectedTask] = useState('easy-claim-mapping');
+  const [selectedTask, setSelectedTask] = useState('forensic-claim-mapping');
   const [activeTab, setActiveTab] = useState<'document' | 'structure' | 'glossary'>('document');
+  const [glossary, setGlossary] = useState<Record<string, string>>({});
 
   const fetchState = async () => {
     try {
@@ -52,6 +53,18 @@ export default function App() {
       if (!res.ok) throw new Error('Failed state fetch');
       const data = await res.json();
       setState(data);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const fetchGlossary = async () => {
+    try {
+      const res = await fetch('/api/glossary');
+      if (res.ok) {
+        const data = await res.json();
+        setGlossary(data);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -77,24 +90,27 @@ export default function App() {
 
   useEffect(() => {
     fetchState();
+    fetchGlossary();
     handleReset(selectedTask);
     const interval = setInterval(fetchState, 2000);
     return () => clearInterval(interval);
   }, []);
 
   const tasks = [
-    { id: 'easy-claim-mapping', name: 'Claim Mapping', difficulty: 'Easy', icon: Search },
-    { id: 'medium-limitation-extraction', name: 'Limitation Extraction', difficulty: 'Medium', icon: Shield },
-    { id: 'hard-infringement-audit', name: 'Infringement Audit', difficulty: 'Hard', icon: Gavel },
+    { id: 'forensic-claim-mapping', name: 'Structural Delineation', difficulty: 'Easy', icon: Search },
+    { id: 'forensic-limitation-audit', name: 'Limitation Audit', difficulty: 'Medium', icon: Shield },
+    { id: 'equivalence-forensics', name: 'Equivalence Forensic', difficulty: 'Hard', icon: Gavel },
+    { id: 'sovereign-ip-strategy', name: 'Strategic Audit', difficulty: 'Elite', icon: Cpu },
   ];
 
   return (
     <div className="min-h-screen bg-[#050508] text-slate-300 font-sans selection:bg-blue-500/30 overflow-x-hidden">
-      {/* Premium Background Blobs */}
+      {/* Premium Background Blobs & Animations */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-600/10 blur-[130px] rounded-full animate-pulse" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-indigo-600/10 blur-[130px] rounded-full animate-pulse" />
+        <div className="neural-pulse top-[-10%] left-[-10%] bg-blue-600/10" />
+        <div className="neural-pulse bottom-[-10%] right-[-10%] bg-indigo-600/10" style={{ animationDelay: '-5s' }} />
         <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] bg-emerald-600/5 blur-[100px] rounded-full shadow-2xl" />
+        <div className="scanline" />
       </div>
 
       {/* Glass Sidebar */}
@@ -131,12 +147,14 @@ export default function App() {
         <header className="h-20 border-b border-white/5 bg-black/40 backdrop-blur-2xl flex items-center justify-between px-10">
           <div className="flex flex-col">
             <h1 className="text-xl font-black tracking-tight text-white flex items-center gap-2">
-              PATENT <span className="text-blue-500">INTEL</span> TERMINAL
+              AEGIS <span className="text-blue-500">FORENSIC</span> IP
             </h1>
             <div className="flex items-center gap-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
               <span className="text-blue-600">Secure Protocol</span>
               <span>/</span>
               <span>EPISODE_{(state?.steps || 0).toString().padStart(3, '0')}</span>
+              <span>/</span>
+              <span className="text-emerald-500 animate-pulse">LIVE EXECUTOR</span>
             </div>
           </div>
 
@@ -146,6 +164,13 @@ export default function App() {
               <div className="flex items-baseline gap-2">
                 <span className="text-2xl font-mono font-bold text-emerald-400">{(state?.totalReward || 0).toFixed(4)}</span>
                 <span className="text-slate-600 text-xs font-mono">/ 1.0000</span>
+              </div>
+            </div>
+            <div className="flex flex-col items-center px-4 py-2 rounded-xl bg-white/5 border border-white/10 min-w-[100px]">
+              <span className="text-[8px] font-black text-slate-500 uppercase tracking-widest mb-1">State Trust</span>
+              <div className="flex items-center gap-1.5">
+                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                <span className="text-xs font-mono font-bold text-slate-300">VALIDATED</span>
               </div>
             </div>
             <div className="w-px h-12 bg-white/10" />
@@ -220,8 +245,12 @@ export default function App() {
                     </button>
                   ))}
                 </div>
-                <div className="flex items-center gap-2 group cursor-help">
-                  <HelpCircle className="w-4 h-4 text-slate-600 group-hover:text-blue-500 transition-colors" />
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20">
+                    <Activity className="w-3 h-3 text-blue-500" />
+                    <span className="text-[9px] font-black text-blue-400 uppercase tracking-widest">Protocol 700-X</span>
+                  </div>
+                  <HelpCircle className="w-4 h-4 text-slate-600 hover:text-blue-500 transition-colors cursor-help" />
                 </div>
               </div>
 
@@ -254,22 +283,45 @@ export default function App() {
                   {activeTab === 'structure' && (
                     <motion.div
                       key="structure"
-                      initial={{ opacity: 0, scale: 0.95 }}
+                      initial={{ opacity: 0, scale: 0.98 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      className="h-full flex flex-col items-center justify-center space-y-8 py-20"
+                      className="space-y-12 py-10"
                     >
-                      <div className="p-8 rounded-full bg-blue-600/10 border border-blue-500/20 text-blue-500">
-                        <Trello className="w-12 h-12" />
+                      <div className="flex flex-col items-center text-center space-y-4">
+                        <div className="p-4 rounded-2xl bg-blue-600/10 border border-blue-500/20 text-blue-500 shadow-xl shadow-blue-500/10">
+                          <Layers className="w-8 h-8" />
+                        </div>
+                        <h4 className="text-xl font-black text-white tracking-tight uppercase">Architectural Claim Map</h4>
+                        <p className="text-slate-500 max-w-sm text-xs font-bold uppercase tracking-widest opacity-70">Decoded Structural Integrity</p>
                       </div>
-                      <div className="text-center space-y-2">
-                        <h4 className="text-lg font-black text-white">Dynamic Claim Mapping</h4>
-                        <p className="text-slate-500 max-w-sm text-sm font-medium">Visualizing the structural limitations extracted by the agent in real-time.</p>
-                      </div>
-                      <div className="flex gap-4">
-                        {[1, 2, 3].map(i => (
-                          <div key={i} className="w-32 h-12 rounded-xl border border-white/10 bg-white/5 flex items-center justify-center animate-pulse">
-                            <div className="w-16 h-2 bg-white/10 rounded-full" />
-                          </div>
+
+                      <div className="grid grid-cols-1 gap-6 relative">
+                        {/* Connecting Line */}
+                        <div className="absolute top-0 bottom-0 left-[2rem] w-px bg-gradient-to-b from-blue-500/50 via-blue-500/20 to-transparent" />
+                        
+                        {[
+                          { id: 1, type: 'Independent', title: 'Main System Architecture', status: 'primary' },
+                          { id: 2, type: 'Dependent', title: 'Power Interface Module', status: 'secondary' },
+                          { id: 3, type: 'Independent', title: 'Operational Method', status: 'primary' }
+                        ].map((node, i) => (
+                          <motion.div 
+                            key={node.id}
+                            initial={{ x: -20, opacity: 0 }}
+                            animate={{ x: 0, opacity: 1 }}
+                            transition={{ delay: i * 0.1 }}
+                            className="bg-white/[0.02] border border-white/5 p-6 rounded-3xl ml-4 flex items-center gap-6 group hover:bg-white/[0.04] transition-all hover:border-blue-500/30"
+                          >
+                            <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black ${node.status === 'primary' ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' : 'bg-slate-800 text-slate-400 border border-white/5'}`}>
+                              {node.id}
+                            </div>
+                            <div className="flex flex-col">
+                              <span className="text-[10px] font-black text-blue-500 uppercase tracking-[0.2em] mb-1">{node.type} Claim</span>
+                              <h5 className="text-sm font-bold text-white group-hover:text-blue-400 transition-colors">{node.title}</h5>
+                            </div>
+                            <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity">
+                              <ArrowRight className="w-4 h-4 text-slate-600" />
+                            </div>
+                          </motion.div>
                         ))}
                       </div>
                     </motion.div>
@@ -280,19 +332,43 @@ export default function App() {
                       key="glossary"
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      className="space-y-6"
+                      className="space-y-10 pt-4"
                     >
-                      {[
-                        { term: 'Comprising', def: 'Open-ended (including but not limited to).' },
-                        { term: 'Consisting of', def: 'Closed-ended (only these elements).' },
-                        { term: 'Doctrine of Equivalents', def: 'Legal equivalence even without literal match.' },
-                        { term: 'Indep. Claim', def: 'Stands alone without referring to others.' }
-                      ].map((item, i) => (
-                        <div key={i} className="p-6 rounded-2xl bg-white/[0.03] border border-white/5 hover:bg-blue-600/5 hover:border-blue-500/30 transition-all group">
-                          <span className="text-blue-400 font-bold uppercase tracking-widest text-xs mb-2 block">{item.term}</span>
-                          <p className="text-slate-400 text-sm italic leading-relaxed">{item.def}</p>
+                      <section className="space-y-4">
+                        <h5 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] flex items-center gap-2">
+                          <BookOpen className="w-3 h-3" /> Legal Lexicon
+                        </h5>
+                        <div className="space-y-3">
+                          {Object.entries(glossary).map(([term, def], i) => (
+                            <div key={i} className="p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:bg-blue-600/5 hover:border-blue-500/20 transition-all group relative overflow-hidden">
+                              <span className="text-blue-400 font-black uppercase tracking-[0.1em] text-[10px] mb-1 block">{term}</span>
+                              <p className="text-slate-400 text-xs leading-relaxed font-medium">{def}</p>
+                            </div>
+                          ))}
                         </div>
-                      ))}
+                      </section>
+
+                      <section className="space-y-4">
+                        <h5 className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] flex items-center gap-2">
+                          <Search className="w-3 h-3" /> Reference Library (Prior Art)
+                        </h5>
+                        <div className="grid grid-cols-1 gap-3">
+                          {[
+                            { id: 'US-992/A1', title: 'Decentralized Mesh Architecture', desc: 'Core prior art for topology comparisons.' },
+                            { id: 'US-882/B2', title: 'Haptic Variable Dampening', desc: 'Precedent for rotational force sensors.' },
+                            { id: 'US-771/X5', title: 'Smart Lock Long-Range Radio', desc: 'Historical context for wireless security.' }
+                          ].map((ref, i) => (
+                            <div key={i} className="p-5 rounded-2xl bg-emerald-500/5 border border-emerald-500/10 flex flex-col gap-1">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[9px] font-mono text-emerald-500 font-bold">{ref.id}</span>
+                                <span className="text-[8px] text-emerald-900 bg-emerald-500/20 px-1.5 py-0.5 rounded font-black">HIGH RELEVANCE</span>
+                              </div>
+                              <h6 className="text-[11px] font-bold text-slate-300">{ref.title}</h6>
+                              <p className="text-[10px] text-slate-500 italic">{ref.desc}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </section>
                     </motion.div>
                   )}
                 </AnimatePresence>

@@ -1,1 +1,189 @@
 @import "tailwindcss";
+
+:root {
+  --bg-color: #0d0f14;
+  --panel-bg: rgba(20, 24, 33, 0.85);
+  --border-color: #2a3142;
+  --primary-accent: #3b82f6;
+  --secondary-accent: #6366f1;
+  --text-main: #e2e8f0;
+  --text-dim: #94a3b8;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --glass: backdrop-filter: blur(12px) saturate(180%);
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(to bottom, transparent, rgba(59, 130, 246, 0.05), transparent);
+  animation: scanline 8s linear infinite;
+  pointer-events: none;
+  z-index: 5;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.05); }
+}
+
+.neural-pulse {
+  position: fixed;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+  filter: blur(60px);
+  animation: pulse-glow 10s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.dashboard-container {
+  display: grid;
+  grid-template-columns: 350px 1fr 380px;
+  gap: 20px;
+  padding: 24px;
+  height: calc(100vh - 80px);
+}
+
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(12px);
+}
+
+.panel-header {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.panel-header h2 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--primary-accent); }
+
+.button {
+  background: var(--primary-accent);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.button:hover { background: var(--secondary-accent); transform: translateY(-1px); }
+.button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.status-badge {
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-badge.easy { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+.status-badge.medium { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+.status-badge.hard { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+.status-badge.elite { background: rgba(139, 92, 246, 0.2); color: #8b5cf6; }
+
+.patent-doc {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  padding: 16px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+  color: #a5b4fc;
+  border: 1px dashed var(--border-color);
+}
+
+.history-item {
+  margin-bottom: 12px;
+  padding: 12px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border-left: 3px solid var(--border-color);
+}
+
+.history-item.step { border-left-color: var(--primary-accent); }
+.history-item.final { border-left-color: var(--success); }
+
+.reward-card {
+  text-align: center;
+  padding: 24px;
+}
+
+.reward-value {
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(to right, #60a5fa, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.glimmer-text {
+  animation: glimmer 3s infinite linear;
+  background: linear-gradient(90deg, #3b82f6, #6366f1, #3b82f6);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+@keyframes glimmer {
+  to { background-position: 200% center; }
+}

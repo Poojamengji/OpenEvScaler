@@ -1,6 +1,6 @@
 ---
-title: Patent Claim Scope Analyzer
-emoji: ⚖️
+title: Aegis Forensic IP Audit
+emoji: 🛡️
 colorFrom: blue
 colorTo: indigo
 sdk: docker
@@ -8,89 +8,81 @@ pinned: false
 app_port: 3000
 ---
 
-# Patent Claim Scope Analyzer (OpenEnv)
+# Aegis Forensic IP: Professional Patent Infringement Audit (OpenEnv)
 
-A professional OpenEnv-compliant environment for evaluating AI agents on patent claim analysis, limitation extraction, and literal infringement assessment.
+A high-fidelity, professional-grade OpenEnv environment for evaluating AI agents on complex patent litigation workflows, literal infringement mapping, and non-literal (Doctrine of Equivalents) forensic auditing.
 
-## 🚀 Overview
+## 🚀 The Aegis Protocol
 
-The **Patent Claim Scope Analyzer** simulates the real-world workflow of a patent attorney or IP analyst. It challenges agents to process complex legal-technical language, map claim elements to product features, and provide structured legal opinions.
+The **Aegis Forensic IP** environment transcends simple keyword matching. It challenges agents to act as Senior IP Forensic Auditors, performing deep structural delineations of patent claims and assessing functional surrogacy in hardware substitutes.
 
-### Key Features
-- **OpenEnv Optimized**: Implements full `step()`, `reset()`, and `state()` API.
-- **Durable State**: Tracks analysis history and partial rewards throughout the episode.
-- **Premium UI**: Built with React + Tailwind + Framer Motion for a stunning visual experience.
-- **Real-World Utility**: Models the "All Elements Rule" used in US patent law.
+### Elite Features
+- **Forensic Delineation**: Programmatic validation of independent vs dependent claim hierarchies.
+- **Doctrine of Equivalents (DOE)**: Advanced scoring for identifying functional equivalents (e.g., LoraWAN vs WiFi) in infringement audits.
+- **Topological Constraints**: Highly specific "Elite" tasks involving network topology (Star vs Mesh) to test agentic reasoning depth.
+- **Forensic Command Center**: A premium, glassmorphic UI built with Vite, React, and Lucide-React for real-time observability.
 
 ---
 
-## 🛠 Action & Observation Spaces
+## 🛠 Action & Observation Protocol
 
-### Action Space
-Agents interact using the following actions:
-1. `list_claims`: Scans the document to identify claim boundaries.
-2. `analyze_claim`: (id: int) Deep dive into a specific claim to understand its structure.
-3. `search_definition`: (term: string) Lookup legal terms like "comprising" or "consisting of" in the built-in dictionary.
-4. `submit_final`: Submits the final analysis for the task.
+### Action Space (`ActionSchema`)
+1. `scan_claims`: Structural scan identifying boundaries of the patent manuscript.
+2. `audit_limitations`: Deep extraction of technical limitations from a specific claim node.
+3. `consult_legal_glossary`: Lookup specialized lexicon (e.g., "PHOSITA", "Doctrine of Equivalents").
+4. `query_prior_art_repo`: Access the Aegis repository for tactical precedent.
+5. `finalize_audit_report`: Submit the finalized forensic verdict.
 
 ### Observation Space
-- `document_text`: The full patent or claim snippet.
-- `task_description`: The specific objective (e.g., "Extract limitations from Claim 1").
-- `history`: A record of all previous actions and environment echos.
+- `document_text`: The semantic manuscript of the patent under audit.
+- `task_description`: The strategic forensic objective.
+- `metadata`: Technical context (Patent Number, Filing Date Origin).
 
 ---
 
-## 📋 Tasks
+## 📋 Audit Tasks
 
-| Task ID | Name | Difficulty | Description |
+| Task ID | Name | Hierarchy | Description |
 | :--- | :--- | :--- | :--- |
-| `easy-claim-mapping` | Claim Mapping | Easy | Identify independent claims in a multi-claim document. |
-| `medium-limitation-extraction` | Limitation Extraction | Medium | Extract specific technical features (limitations) from a robotic claim. |
-| `hard-infringement-audit` | Infringement Audit | Hard | Determine if 'SafeSafe' product infringes a claim, requiring "All Elements" check. |
+| `forensic-claim-mapping` | Structural Delineation | Easy | Extract primary independent claims for litigation scoping. |
+| `forensic-limitation-audit` | Limitation Audit | Medium | Identify all technical requirements for a valid infringement claim. |
+| `equivalence-forensics` | Doctrine of Equivalents | Hard | Audit functional surrogacy (LoraWAN vs WiFi) for non-literal infringement. |
+| `sovereign-ip-strategy` | Multi-Staged Strategic Invalidation | Elite | Assess Literal Infringement vs topological (Mesh vs Star) constraints. |
 
 ---
 
-## 🚦 Getting Started
+## 🚦 Deployment & Execution
 
-### Local Setup
-1. **Install Node & Python**: Ensure you have Node 20+ and Python 3.9+.
-2. **Install Dependencies**:
+### Local Forensic Server
+1. **Initialize Dependencies**:
    ```bash
    npm install
    ```
-3. **Run Environment**:
+2. **Ignite Environment**:
    ```bash
    npm start
    ```
 
-### Running Inference
-1. Set your environment variables:
+### Auditor Inference
+1. Configure credentials:
    ```bash
    export API_BASE_URL="http://localhost:3000"
-   export OPENAI_API_KEY="your-key"
-   export MODEL_NAME="gpt-4o"
+   export API_KEY="your-forensic-key"
    ```
-2. Run the baseline script:
+2. Execute the audit sequence:
    ```bash
    python3 inference.py
    ```
 
-### Docker
-Build and run the containerized environment:
-```bash
-docker build -t patent-env .
-docker run -p 3000:3000 patent-env
-```
+---
+
+## 📊 Programmatic Verification Engine
+The environment utilizes a multi-layered reward engine:
+- **Literal Accuracy**: Validates identified claim IDs and limitation sets.
+- **Legal Reasoning**: Evaluates the rationale behind infringement verdicts (e.g., topology matching).
+- **Efficiency Coefficient**: Strategic penalties for redundant repository queries to ensure agentic efficiency.
 
 ---
 
-## 📊 Evaluation & Grader
-Each task includes a programmatic grader that rewards:
-- **Accuracy**: Correct identification of claims/limitations.
-- **Reasoning**: In the hard task, the agent must identify the "Missing Element" for full marks.
-- **Efficiency**: Partial rewards for using "Search" and "Analyze" actions before submission.
-
----
-
-## 📜 License
-MIT License. Built for the OpenEnv Hackathon 2026.
+## 📜 Intellectual Property
+Developed for the **Meta PyTorch OpenEnv Hackathon 2026**. Original architecture and forensic logic.

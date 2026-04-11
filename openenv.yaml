@@ -1,41 +1,46 @@
-# OpenEnv Configuration for Patent Claim Scope Analyzer
-version: "1.0"
-name: "patent-claim-analyzer"
-description: "Elite-tier professional environment for analyzing patent claim scope, limitation extraction, and legal infringement (Literal + Doctrine of Equivalents)."
+# Aegis Forensic IP: High-Fidelity Patent Infringement Audit Environment
+version: "1.1"
+name: "aegis-forensic-ip"
+description: "Forensic analysis environment for intellectual property litigation, claim construction, and infringement auditing (Literal + DOE)."
 entrypoint: "npm start"
 env_vars:
   - PORT: 3000
 
 tasks:
-  - id: "easy-claim-mapping"
-    name: "Independent Claim Identification"
+  - id: "forensic-claim-mapping"
+    name: "Structural Claim Delineation"
     difficulty: "easy"
-    description: "Identify all independent claims in the solar backpack patent US-1029384."
+    description: "Audit the solar-capture system patent (US-1029384) to extract distinct independent claims for litigation scoping."
   
-  - id: "medium-limitation-extraction"
+  - id: "forensic-limitation-audit"
     name: "Claim Limitation Extraction"
     difficulty: "medium"
-    description: "Extract technical limitations from the surgical robot haptic system claim US-1192837."
+    description: "Deep audit of US-1192837 (Surgical Haptic Interface). Identify all technical limitations required for a valid infringement claim."
 
-  - id: "hard-infringement-audit"
-    name: "Infringement Audit (Doctrine of Equivalents)"
+  - id: "equivalence-forensics"
+    name: "Doctrine of Equivalents (Non-Literal) Audit"
     difficulty: "hard"
-    description: "Perform a full infringement analysis for the SafeSafe smart lock. Consider functional equivalents."
+    description: "Analyze the 'SafeSafe' hardware against US-1283746. Determine if LoraWAN protocols constitute a functional equivalent for WiFi limitations."
+
+  - id: "sovereign-ip-strategy"
+    name: "Multi-Staged Strategic Invalidation"
+    difficulty: "elite"
+    description: "Perform a complex IP audit on US-9928374. Assess both Literal Infringement and potential Prior Art invalidity based on network topology constraints."
 
 observation_space:
   type: "object"
   properties:
     document_text:
       type: "string"
-      description: "The patent document or claim text to analyze."
+      description: "The technical patent manuscript or claim specification."
     task_description:
       type: "string"
-      description: "Specific goal for the current task."
+      description: "Strategic forensic objective."
     history:
       type: "array"
       items:
         type: "string"
-      description: "List of past actions and their results."
+      description: "Log of forensic actions and auditor feedback."
     metadata:
       type: "object"
       properties:
@@ -49,7 +54,7 @@ action_space:
   properties:
     action_type:
       type: "string"
-      enum: ["list_claims", "analyze_claim", "search_definition", "search_prior_art", "submit_final"]
+      enum: ["scan_claims", "audit_limitations", "consult_legal_glossary", "query_prior_art_repo", "finalize_audit_report"]
     payload:
       type: "object"
       properties:
@@ -57,15 +62,15 @@ action_space:
           type: "integer"
         term:
           type: "string"
-        claims:
+        identified_claims:
           type: "array"
           items:
             type: "integer"
-        limitations:
+        extracted_limitations:
           type: "array"
           items:
             type: "string"
-        infringes:
+        full_infringement_detected:
           type: "boolean"
-        reasoning:
+        forensic_reasoning:
           type: "string"
