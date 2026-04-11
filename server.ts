@@ -282,7 +282,7 @@ async function startServer() {
           const mentionsEquivalence = reasoning.includes("equivalent") || reasoning.includes("function") || reasoning.includes("lorawan");
           
           if (infringes === task.metadata.isInfringed && mentionsEquivalence) {
-            stepReward += 1.0;
+            stepReward += 0.95;
             message += "Elite Verdict: Doctrine of Equivalents verified for non-literal infringement via LoraWAN.";
           } else {
             stepReward += 0.1;
@@ -295,7 +295,7 @@ async function startServer() {
           const mentionsTopology = reasoning.includes("topology") || reasoning.includes("mesh") || reasoning.includes("star");
           
           if (infringes === false && mentionsTopology) {
-            stepReward += 1.0;
+            stepReward += 0.95;
             message += "Elite Strategic Audit: Successfully identified non-infringement due to topological deviation (Mesh vs Star).";
           } else {
             stepReward += 0.2;
@@ -309,8 +309,8 @@ async function startServer() {
     currentState.totalReward += stepReward;
     currentState.history.push(`[${action.action_type.toUpperCase()}] ${message}`);
 
-    // Standardized scoring for OpenEnv dashboard
-    const displayScore = Math.min(Math.max(currentState.totalReward, 0.0), 1.0);
+    // Standardized scoring for OpenEnv dashboard - strictly between 0 and 1
+    const displayScore = Math.min(Math.max(currentState.totalReward, 0.01), 0.99);
 
     res.json({
       observation: {

@@ -92,7 +92,7 @@ async def run_forensic_audit(task_id: str, agent: ForensicAgent):
             if done: break
         
         total_raw_reward = sum(rewards)
-        score = min(max(total_raw_reward / MAX_TOTAL_REWARD, 0.01), 1.0) if MAX_TOTAL_REWARD > 0 else 0.01
+        score = min(max(total_raw_reward / MAX_TOTAL_REWARD, 0.01), 0.99) if MAX_TOTAL_REWARD > 0 else 0.01
         success = score >= SUCCESS_SCORE_THRESHOLD
     except Exception as e:
         print(f"[DEBUG] Audit Error: {e}", file=sys.stderr)
