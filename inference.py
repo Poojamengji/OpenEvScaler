@@ -23,14 +23,14 @@ SUCCESS_SCORE_THRESHOLD = 0.8
 MAX_TOTAL_REWARD = 1.0
 
 def log_start(task: str, env: str, model: str):
-    print(f"[AEGIS-START] task={task} env={env} model={model}", flush=True)
+    print(f"[START] task={task} env={env} model={model}", flush=True)
 
 def log_step(step: int, action: str, reward: float, done: bool, error: Optional[str] = None):
     action_clean = action.replace("\n", " ").replace("\r", " ")[:150]
-    print(f"[AEGIS-STEP] step={step} action={action_clean} reward={reward} done={done} error={error}", flush=True)
+    print(f"[STEP] step={step} action={action_clean} reward={reward} done={done} error={error}", flush=True)
 
 def log_end(success: bool, steps: int, score: float, rewards: List[float]):
-    print(f"[AEGIS-END] success={success} steps={steps} score={score} rewards={rewards}", flush=True)
+    print(f"[END] success={success} steps={steps} score={score} rewards={rewards}", flush=True)
 
 class ForensicAgent:
     def __init__(self, client: OpenAI, model: str):
